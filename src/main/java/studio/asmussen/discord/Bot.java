@@ -2,7 +2,9 @@ package studio.asmussen.discord;
 
 import discord4j.core.DiscordClient;
 
+import discord4j.core.GatewayDiscordClient;
 import lombok.Data;
+import reactor.core.publisher.Mono;
 
 import java.util.Objects;
 
@@ -19,6 +21,10 @@ public class Bot {
         this.ownerID = ownerID;
         this.client = DiscordClient.create(token);
         this.clientID = Objects.requireNonNull(client.getSelf().block()).id().asString();
+
+        Mono<Void> login = client.withGateway((GatewayDiscordClient gateway) -> Mono.empty());
+
+        login.block();
     }
 
     public static void main(String[] args) {
