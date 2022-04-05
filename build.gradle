@@ -3,7 +3,7 @@ plugins {
     id 'java'
 }
 
-group 'studio.asmussen'
+group 'studio.asmussen.discord'
 version '1.0'
 
 repositories {
