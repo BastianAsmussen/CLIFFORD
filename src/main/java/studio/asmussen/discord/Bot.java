@@ -1,5 +1,6 @@
 package studio.asmussen.discord;
 
+import discord4j.common.util.Snowflake;
 import discord4j.core.DiscordClient;
 
 import discord4j.core.GatewayDiscordClient;
@@ -8,7 +9,6 @@ import reactor.core.publisher.Mono;
 
 import java.util.Objects;
 
-@Data
 public class Bot {
 
     private DiscordClient client;
@@ -20,7 +20,9 @@ public class Bot {
 
         this.ownerID = ownerID;
         this.client = DiscordClient.create(token);
-        this.clientID = Objects.requireNonNull(client.getSelf().block()).id().asString();
+        this.clientID = Objects.requireNonNull(this.client.getSelf().block()).id().asString();
+
+        if (this.ownerID != null) System.out.println("Owner has been identified as " + this.client.getUserById(Snowflake.of(this.clientID)) + ".");
 
         Mono<Void> login = client.withGateway((GatewayDiscordClient gateway) -> Mono.empty());
 
